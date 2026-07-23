@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dino Powered QR Code Generator</title>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <style>
+    body {
+      text-align: center;
+      margin: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      background-color: rgb(255, 255, 255);
+      color: rgb(0, 0, 0);
+      position: relative;
+    }
+    .centered-container {
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 60%;
+    }
+    h2, #qrForm, #qrcode, #downloadLink {
+      margin: 20px auto;
+    }
+    #logo, #qrForm, #qrcode, #downloadLink {
+      max-width: 100%;
+    }
+    label, input, button, #downloadLink {
+      font-size: 1em;
+      font-weight: bold;
+    }
+    #downloadLink {
+      display: none;
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <div class="centered-container">
+    <img id="logo" src="dino_logo.png" alt="Sinclair Dino Logo" width="500" height="275">
+    <h2>Dino Powered QR Code Generator</h2>
+    <form id="qrForm">
+      <label for="webAddress">Enter Web Address:</label>
+      <input type="text" id="webAddress" required>
+      <button type="button" onclick="generateQRCode()">Generate QR Code</button>
+      <div class="button-group">
+        <button type="button" onclick="clearEntries()" style="margin-top: 20px;">Clear Entries</button>
+      </div>
+    </form>
+    <div id="qrcode"></div>
+    <a id="downloadLink" download="qrcode.png" href="#">Download QR Code Image</a>
+  </div>
+
+  <script>
+    let qr;
+
+    function generateQRCode() {
+      const webAddress = document.getElementById('webAddress').value;
+      const qrContainer = document.getElementById('qrcode');
+      qrContainer.innerHTML = '';
+
+      qr = new QRCode(qrContainer, {
+        text: webAddress,
+        width: 128,
+        height: 128,
+        correctLevel: QRCode.CorrectLevel.H
+      });
+
+      setTimeout(() => {
+        const img = qrContainer.querySelector('img');
+        if (img && img.src) {
+          const downloadLink = document.getElementById('downloadLink');
+          downloadLink.href = img.src;
+          downloadLink.style.display = 'block';
+        }
+      }, 500);
+    }
+
+    function clearEntries() {
+      document.getElementById('webAddress').value = '';
+      document.getElementById('qrcode').innerHTML = '';
+      document.getElementById('downloadLink').style.display = 'none';
+    }
+  </script>
+</body>
+</html>
