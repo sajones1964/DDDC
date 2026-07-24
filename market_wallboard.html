@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Wallboard Viewer</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      background: black;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+    img {
+      display: block;
+      width: 100vw;
+      height: 100vh;
+      object-fit: contain;
+      background: black;
+    }
+  </style>
+</head>
+<body>
+  <img id="wallboard" src="wallboard_latest.jpg" alt="Wallboard">
+  <script>
+    function refreshWallboard() {
+      const img = document.getElementById("wallboard");
+      img.src = "wallboard_latest.jpg?t=" + Date.now();
+    }
+    refreshWallboard();
+    setInterval(refreshWallboard, 5000);
+  </script>
+</body>
+</html>
